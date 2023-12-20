@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/* DO NOT USE THIS THIS IS NOT PART OF PROJECT
+/* DO NOT USE THIS THIS IS NOT PART OF PROJECT.
 public class ShopListGui implements ActionListener {
     public static JTextArea textArea;
     public static JTextArea textArea2;
