@@ -78,7 +78,7 @@ public class ShoppingGuiForm implements ActionListener {
         button7.setVisible(false);
         button8.setVisible(false);
         button9.setVisible(false);
-        Label1.setText("you have " + String.valueOf(tries) + "tries left");
+        Label1.setText("you have " + String.valueOf(tries) + " tries left");
         button1.addActionListener(this::actionPerformed); //THIS ONE IS FOR LABEL BUTTON.
         button2.addActionListener(this::actionPerformed2);
         button3.addActionListener(this::actionPerformed3);
