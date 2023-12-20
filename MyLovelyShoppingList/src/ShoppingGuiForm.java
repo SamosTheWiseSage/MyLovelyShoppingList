@@ -29,6 +29,7 @@ public class ShoppingGuiForm implements ActionListener {
     private JLabel Label1;
     private JDialog dialog;
     private JDialog dialog2;
+    private JDialog dialog3;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("ShoppingGuiForm");
@@ -46,9 +47,13 @@ public class ShoppingGuiForm implements ActionListener {
         dialog.setSize(1000, 550);
         dialog.setVisible(true);
         JButton b = new JButton("close");
-        JTextArea dtext = new JTextArea("Welcome your challenge is to sort items by two diffrent orders one is alphabetical and one is by Highest number." +
-                "\nin both of them the rules are the same. \n1: only one letter or number is allowed in any more then one letter or digit and you fail " +
-                 "\nYour topic is ");
+        JTextArea dtext = new JTextArea("Welcome your challenge is to sort items by two different topics one is alphabetical and one is by Highest number." +
+                "\nin both of them the rules are the same. \n1: only one letter or number is allowed in any more then " +
+                "one letter or digit per texfield and you fail " +
+                 "\n2. Red texfields means 0 Points. Green textfields means 1 Points. Get a majority of the textfields Green to win." +
+                "\nthat means 5 out of 8 is a win and" +
+                "4 out of 8 is not.\nThere is no draw you either Win or Lose,Live or Die." +
+                "\nYour topic is ");
         dtext.setFont(new Font("Arial",0,20));
         dialog.add(dtext,BorderLayout.CENTER);
         dialog.add(b,BorderLayout.SOUTH);
@@ -56,7 +61,7 @@ public class ShoppingGuiForm implements ActionListener {
        topic = random.nextInt(2);
         switch (topic) {
             case 0 -> {
-                dtext.append("highest number");
+                dtext.append("Highest number");
             }
             case 1 -> {
                 dtext.append("Alphabetical");
@@ -78,7 +83,7 @@ public class ShoppingGuiForm implements ActionListener {
         button7.setVisible(false);
         button8.setVisible(false);
         button9.setVisible(false);
-        Label1.setText("you have " + String.valueOf(tries) + " tries left");
+        Label1.setText("you have " + String.valueOf(tries) + "tries left");
         button1.addActionListener(this::actionPerformed); //THIS ONE IS FOR LABEL BUTTON.
         button2.addActionListener(this::actionPerformed2);
         button3.addActionListener(this::actionPerformed3);
@@ -91,6 +96,7 @@ public class ShoppingGuiForm implements ActionListener {
     }
 
     int tries = 8;
+    byte points;
 
     public void chance() {
         tries--;
@@ -101,7 +107,7 @@ public class ShoppingGuiForm implements ActionListener {
             dialog2.setAlwaysOnTop(true);
             dialog2.setSize(350, 250);
             dialog2.setVisible(true);
-            JButton b2 = new JButton("results");
+            JButton b2 = new JButton("Results");
             JTextArea dtext2 = new JTextArea("Congrats now lets see your Results. press the button below");
             dtext2.setFont(new Font("Arial",0,15));
             dialog2.add(dtext2,BorderLayout.CENTER);
@@ -109,11 +115,27 @@ public class ShoppingGuiForm implements ActionListener {
             b2.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   dialog2.dispose();
+                    if (points <= 3){
+                       dialog3 = new JDialog();
+                       dialog3.setAlwaysOnTop(true);
+                       dialog3.setSize(350,250);
+                       dialog3.setVisible(true);
+                       JTextArea dtext3 = new JTextArea("YOU ARE DEAD.");
+                       dialog3.add(dtext3,BorderLayout.CENTER);
+                    } else if (points >= 5) {
+                        dialog3 = new JDialog();
+                        dialog3.setAlwaysOnTop(true);
+                        dialog3.setSize(350,250);
+                        dialog3.setVisible(true);
+                        JTextArea dtext3 = new JTextArea("YOU GET TO LIVE...FOR NOW");
+                        dialog3.add(dtext3,BorderLayout.CENTER);
+                    }
+                    dialog2.dispose();
                     if (textField1.getText().equals("6") && topic == 0 || textField1.getText().equals("A") && topic == 1){
                         System.out.println("THIS WORKS");
                         textField1.setBackground(Color.green);
                         textField1.setText(textField1.getText() + " was correct Nice!");
+                        points++;
                     }else if (!textField1.getText().equals("6") && topic == 0 || !textField1.getText().equals("A") && topic == 1){
                         textField1.setBackground(Color.red);
                         textField1.setText(textField1.getText() + " WRONG");
@@ -122,6 +144,7 @@ public class ShoppingGuiForm implements ActionListener {
                         System.out.println("THIS WORKS");
                         textField2.setBackground(Color.green);
                         textField2.setText(textField2.getText() + " was correct Nice!");
+                        points++;
                     }else if (!textField2.getText().equals("5") && topic == 0 || !textField2.getText().equals("C") && topic == 1){
                         textField2.setBackground(Color.red);
                         textField2.setText(textField2.getText() + " WRONG");
@@ -179,9 +202,10 @@ public class ShoppingGuiForm implements ActionListener {
 
 
                    if (topic == 0) {
-                        textArea1.append(" \nPickles : 6 \nApples : 5\nCoke 2L : 4 \nSkim-Milk : 4 \nKetchup : 3 \nPineapple : 2 \nWhole-Milk : 2 \nWineGums : 2");
+                        textArea1.append(" \nPickles : 6 \nApples : 5\nCoke 2L : 4 \nSkim-Milk : 4 \nKetchup : 3 \nPineapple : 2 \nWhole-Milk : 2 \nWineGums : 2"
+                        + " \nYour total points are " + points);
                     } else if (topic == 1) {
-                       textArea1.append("\nA\nC\nK\nP\nP\nS\nW\nW");
+                       textArea1.append("\nA\nC\nK\nP\nP\nS\nW\nW" + " \nYour total points are " + points);
                    }
 
                 }
@@ -208,6 +232,7 @@ public class ShoppingGuiForm implements ActionListener {
             textArea1.append(split[i] + "\n");
         }
         System.out.println(Arrays.toString(split));
+        button1.setEnabled(false);
         button2.setVisible(true);
         button3.setVisible(true);
         button4.setVisible(true);
